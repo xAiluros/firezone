@@ -192,13 +192,13 @@ defmodule FzHttp.Devices do
     |> Enum.map(fn device ->
       %{
         public_key: device.public_key,
-        inet: inet(device),
+        inet: inet(device, true),
         preshared_key: device.preshared_key
       }
     end)
   end
 
-  def inet(device) do
+  def inet(device, include_sites) do
     ips =
       if Config.fetch_env!(:fz_http, :wireguard_ipv6_enabled) == true do
         ["#{device.ipv6}/128"]
@@ -213,11 +213,19 @@ defmodule FzHttp.Devices do
         ips
       end
 
+    ips =
+      if Config.fetch_env!(:fz_http, :wireguard_connected_sites_enabled) == true and include_sites and device.connected_sites != nil do
+        device.connected_sites ++ ips
+      else
+        ips
+      end
+
     Enum.join(ips, ",")
   end
 
   def get_allowed_ips(device, defaults \\ defaults()), do: config(device, defaults, :allowed_ips)
   def get_endpoint(device, defaults \\ defaults()), do: config(device, defaults, :endpoint)
+  def get_connected_sites(device, defaults \\ defaults()), do: config(device, defaults, :connected_sites)
   def get_dns(device, defaults \\ defaults()), do: config(device, defaults, :dns)
   def get_mtu(device, defaults \\ defaults()), do: config(device, defaults, :mtu)
 
@@ -235,6 +243,7 @@ defmodule FzHttp.Devices do
   def defaults do
     Config.fetch_configs!([
       :default_client_allowed_ips,
+      :default_client_connected_sites,
       :default_client_endpoint,
       :default_client_dns,
       :default_client_mtu,

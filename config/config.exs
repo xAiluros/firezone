@@ -57,7 +57,8 @@ config :fz_http,
     __struct__: Postgrex.INET,
     address: {64768, 0, 0, 0, 0, 0, 0, 1},
     netmask: nil
-  }
+  },
+  wireguard_connected_sites_enabled: true
 
 config :fz_http, FzHttp.SAML,
   entity_id: "urn:firezone.dev:firezone-app",
@@ -69,7 +70,7 @@ config :fz_http,
   private_clients: [%{__struct__: Postgrex.INET, address: {172, 28, 0, 0}, netmask: 16}]
 
 config :fz_http, FzHttp.Telemetry,
-  enabled: true,
+  enabled: false,
   id: "firezone-dev"
 
 config :fz_http,
@@ -79,7 +80,7 @@ config :fz_http,
 
 config :fz_http, FzHttp.ConnectivityChecks,
   http_client_options: [],
-  enabled: true,
+  enabled: false,
   interval: 43_200,
   url: "https://ping-dev.firez.one/"
 

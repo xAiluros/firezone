@@ -11,6 +11,7 @@ defmodule FzHttp.Devices.Device.Changeset do
 
   @configure_fields ~w[ipv4 ipv6
                        use_default_allowed_ips allowed_ips
+                       use_default_connected_sites connected_sites
                        use_default_dns dns
                        use_default_endpoint endpoint
                        use_default_mtu mtu
@@ -58,6 +59,7 @@ defmodule FzHttp.Devices.Device.Changeset do
     |> trim_change(:dns)
     |> trim_change(:endpoint)
     |> config_changeset(:allowed_ips, :default_client_allowed_ips)
+    |> config_changeset(:connected_sites, :default_client_connected_sites)
     |> config_changeset(:dns, :default_client_dns)
     |> config_changeset(:endpoint, :default_client_endpoint)
     |> config_changeset(:persistent_keepalive, :default_client_persistent_keepalive)
@@ -65,6 +67,7 @@ defmodule FzHttp.Devices.Device.Changeset do
     |> validate_required_unless_default([:endpoint])
     |> validate_omitted_if_default(~w[
       allowed_ips
+      connected_sites
       dns
       endpoint
       persistent_keepalive
@@ -125,6 +128,19 @@ defmodule FzHttp.Devices.Device.Changeset do
     |> case do
       nil -> add_error(changeset, :base, "CIDR #{cidr} is exhausted")
       ip -> put_change(changeset, field, ip)
+    end
+  end
+
+  defp maybe_put_default_sites(changeset, field) do
+    if FzHttp.Config.fetch_env!(:fz_http, :"wireguard_#{field}_enabled") == true do
+      case fetch_field(changeset, field) do
+        {:data, nil} -> put_change(changeset, field, [])
+        :error -> put_change(changeset, field, [])
+        _ -> changeset
+      end
+      |> validate_required(field)
+    else
+      changeset
     end
   end
 

@@ -22,7 +22,7 @@ defmodule FzHttpWeb.WireguardConfigView do
     """
     [Interface]
     PrivateKey = REPLACE_ME
-    Address = #{Devices.inet(device)}
+    Address = #{Devices.inet(device, false)}
     #{mtu_config(device, defaults)}
     #{dns_config(device, defaults)}
 

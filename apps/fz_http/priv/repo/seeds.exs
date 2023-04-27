@@ -228,6 +228,8 @@ FzHttp.Config.put_config!(
   ]
 )
 
+FzHttp.Config.put_config!(:default_client_connected_sites, [])
+
 FzHttp.Config.put_config!(
   :openid_connect_providers,
   [

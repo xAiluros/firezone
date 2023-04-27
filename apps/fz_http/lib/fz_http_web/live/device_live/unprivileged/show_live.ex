@@ -44,6 +44,7 @@ defmodule FzHttpWeb.DeviceLive.Unprivileged.Show do
       user: Users.fetch_user_by_id!(device.user_id),
       page_title: device.name,
       allowed_ips: Devices.get_allowed_ips(device, defaults),
+      connected_sites: Devices.get_connected_sites(device, defaults),
       dns: Devices.get_dns(device, defaults),
       endpoint: Devices.get_endpoint(device, defaults),
       mtu: Devices.get_mtu(device, defaults),

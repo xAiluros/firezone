@@ -15,6 +15,7 @@ defmodule FzHttp.Config.Configuration.Changeset do
       default_client_endpoint
       default_client_dns
       default_client_allowed_ips
+      default_client_connected_sites
       vpn_session_duration
     ]a
 

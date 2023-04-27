@@ -23,6 +23,7 @@ defmodule FzHttp.Config.Configuration do
     field :default_client_endpoint, :string
     field :default_client_dns, {:array, :string}, default: []
     field :default_client_allowed_ips, {:array, FzHttp.Types.INET}, default: []
+    field :default_client_connected_sites, {:array, FzHttp.Types.INET}, default: []
 
     # XXX: Remove when this feature is refactored into config expiration feature
     # and WireGuard keys are decoupled from devices to facilitate rotation.

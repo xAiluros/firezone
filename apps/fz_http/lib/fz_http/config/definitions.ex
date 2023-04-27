@@ -90,7 +90,8 @@ defmodule FzHttp.Config.Definitions do
          :default_client_mtu,
          :default_client_endpoint,
          :default_client_dns,
-         :default_client_allowed_ips
+         :default_client_allowed_ips,
+         :default_client_connected_sites
        ]},
       # {"Limits",
       #  [
@@ -494,6 +495,19 @@ defmodule FzHttp.Config.Definitions do
     :default_client_allowed_ips,
     {:array, ",", {:one_of, [Types.CIDR, Types.IP]}, validate_unique: true},
     default: "0.0.0.0/0, ::/0"
+  )
+
+  @doc """
+  Configures the default Connected sites setting for devices.
+
+  ConnectedSites determines networks get routed to this device.
+
+  Specify a comma-separated list of IPs or CIDRs here to access a connected network of this device.
+  """
+  defconfig(
+    :default_client_connected_sites,
+    {:array, ",", {:one_of, [Types.CIDR]}, validate_unique: true},
+    default: []
   )
 
   ##############################################

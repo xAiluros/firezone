@@ -20,6 +20,7 @@ defmodule FzHttpWeb.JSON.ConfigurationView do
     default_client_endpoint
     default_client_dns
     default_client_allowed_ips
+    default_client_connected_sites
     inserted_at
     updated_at
   ]a

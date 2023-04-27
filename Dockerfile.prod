@@ -62,7 +62,10 @@ RUN mix release
 # the compiled release and other runtime necessities
 FROM ${RUNNER_IMAGE}
 
-RUN apk add -u --no-cache nftables libstdc++ ncurses-libs openssl
+RUN apk add -u --no-cache nftables libstdc++ ncurses-libs openssl bash
+
+# add some tools to debug issues
+RUN apk add wireguard-tools tcpdump
 
 WORKDIR /app
 

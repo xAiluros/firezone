@@ -23,6 +23,7 @@ defmodule FzHttpWeb.JSON.DeviceView do
     public_key
     preshared_key
     use_default_allowed_ips
+    use_default_connected_sites
     use_default_dns
     use_default_endpoint
     use_default_mtu
@@ -31,6 +32,7 @@ defmodule FzHttpWeb.JSON.DeviceView do
     mtu
     persistent_keepalive
     allowed_ips
+    connected_sites
     dns
     remote_ip
     ipv4
@@ -47,6 +49,7 @@ defmodule FzHttpWeb.JSON.DeviceView do
         server_public_key: Application.get_env(:fz_vpn, :wireguard_public_key),
         endpoint: Devices.get_endpoint(device, defaults),
         allowed_ips: Devices.get_allowed_ips(device, defaults),
+        connected_sites: Devices.get_connected_sites(device, defaults),
         dns: Devices.get_dns(device, defaults),
         persistent_keepalive: Devices.get_persistent_keepalive(device, defaults),
         mtu: Devices.get_mtu(device, defaults)

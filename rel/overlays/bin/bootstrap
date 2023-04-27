@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 : "${WIREGUARD_INTERFACE_NAME:=wg-firezone}"
 # Note: we keep legacy default values for those variables to avoid breaking existing deployments,
@@ -36,6 +36,13 @@ add_routes()
       echo "Adding route ${WIREGUARD_IPV4_NETWORK} for interface ${WIREGUARD_INTERFACE_NAME}"
       ip route add ${WIREGUARD_IPV4_NETWORK} dev ${WIREGUARD_INTERFACE_NAME}
     fi
+    IFS=',' read -r -a SITES <<< "${WIREGUARD_IPV4_SITES}"
+    for SITE in ${SITES[@]}; do
+      if ! ip route show dev ${WIREGUARD_INTERFACE_NAME} | grep -q "${SITE}"; then
+        echo "Adding route ${SITE} for interface ${WIREGUARD_INTERFACE_NAME}"
+        ip route add ${SITE} dev ${WIREGUARD_INTERFACE_NAME}
+      fi
+    done
   fi
 
   if [ "$WIREGUARD_IPV6_ENABLED" = "true" ]; then

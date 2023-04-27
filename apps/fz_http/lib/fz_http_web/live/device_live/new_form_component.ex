@@ -27,6 +27,7 @@ defmodule FzHttpWeb.DeviceLive.NewFormComponent do
         default_client_persistent_keepalive
         default_client_dns
         default_client_allowed_ips
+        default_client_connected_sites
       )a)
       |> Enum.into(%{}, fn {k, {_s, v}} -> {k, v} end)
 
@@ -46,6 +47,7 @@ defmodule FzHttpWeb.DeviceLive.NewFormComponent do
       device_params
       |> Map.update("dns", nil, &binary_to_list/1)
       |> Map.update("allowed_ips", nil, &binary_to_list/1)
+      |> Map.update("connected_sites", nil, &binary_to_list/1)
 
     # Note: change_device is used here because when you type in at some point
     # the input can be empty while you typing, which will immediately put back
@@ -65,6 +67,7 @@ defmodule FzHttpWeb.DeviceLive.NewFormComponent do
     device_params
     |> Map.update("dns", nil, &binary_to_list/1)
     |> Map.update("allowed_ips", nil, &binary_to_list/1)
+    |> Map.update("connected_sites", nil, &binary_to_list/1)
     |> create_device(socket)
     |> case do
       {:ok, device} ->
@@ -94,6 +97,7 @@ defmodule FzHttpWeb.DeviceLive.NewFormComponent do
   defp use_default_fields(changeset) do
     ~w(
       use_default_allowed_ips
+      use_default_connected_sites
       use_default_dns
       use_default_endpoint
       use_default_mtu

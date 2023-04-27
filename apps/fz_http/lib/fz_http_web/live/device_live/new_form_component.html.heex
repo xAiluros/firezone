@@ -123,6 +123,36 @@
             </p>
           </div>
 
+
+          <div class="field">
+              <%= label(f, :use_default_connected_sites, "Use Default Connected Sites", class: "label") %>
+              <div class="control">
+                <label class="radio">
+                  <%= radio_button(f, :use_default_connected_sites, true) %> Yes
+                </label>
+                <label class="radio">
+                  <%= radio_button(f, :use_default_connected_sites, false) %> No
+                </label>
+              </div>
+              <p class="help">
+                Default: <%= Enum.join(@default_client_connected_sites, ", ") %>
+              </p>
+            </div>
+
+            <div class="field">
+              <%= label(f, :connected_sites, "Connected sites", class: "label") %>
+              <div class="control">
+                <%= textarea(f, :connected_sites,
+                  class: "textarea #{input_error_class(f, :connected_sites)}",
+                  disabled: @use_default_connected_sites,
+                  value: list_value(f, :connected_sites)
+                ) %>
+              </div>
+              <p class="help is-danger">
+                <%= error_tag(f, :connected_sites) %>
+              </p>
+            </div>
+
           <div class="field">
             <%= label(f, :use_default_dns, "Use Default DNS Servers", class: "label") %>
             <div class="control">

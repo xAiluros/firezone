@@ -7,6 +7,7 @@ defmodule FzHttpWeb.SettingLive.ClientDefaultsFormComponent do
 
   @configs ~w[
     default_client_allowed_ips
+    default_client_connected_sites
     default_client_dns
     default_client_endpoint
     default_client_persistent_keepalive
@@ -29,6 +30,7 @@ defmodule FzHttpWeb.SettingLive.ClientDefaultsFormComponent do
       configuration_params
       |> Map.update("default_client_dns", nil, &binary_to_list/1)
       |> Map.update("default_client_allowed_ips", nil, &binary_to_list/1)
+      |> Map.update("default_client_connected_sites", nil, &binary_to_list/1)
 
     configuration = Config.fetch_db_config!()
 
